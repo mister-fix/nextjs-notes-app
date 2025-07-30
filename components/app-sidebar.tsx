@@ -33,7 +33,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
       url: `/dashboard/${notebook.id}`,
       items: (notebook.notes ?? []).map((note: Note) => ({
         title: note.title,
-        url: `/dashboard/notebook/${notebook.id}/${note.id}`
+        url: `/dashboard/notebook/${notebook.id}/note/${note.id}`
       }))
     }))
   ],
@@ -63,7 +63,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
               >
                 <CollapsibleTrigger>
                   {item.title}{" "}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  {item.items.length > 0 && <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />}
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>

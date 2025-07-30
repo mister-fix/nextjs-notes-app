@@ -3,10 +3,12 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
+    BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { SignOut } from '@/components/signout';
 import { ModeToggle } from "./ui/mode-toggle";
+import { Fragment } from "react";
 
 interface Props {
     children: React.ReactNode
@@ -24,10 +26,13 @@ export function PageWrapper({ children, breadcrumbs }: Props) {
                     <SidebarTrigger className="cursor-pointer" />
                     <Breadcrumb>
                         <BreadcrumbList>
-                            {breadcrumbs.map((item) => (
-                                <BreadcrumbItem key={item.label}>
-                                    <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
-                                </BreadcrumbItem>
+                            {breadcrumbs.map((item, index) => (
+                                <Fragment key={item.label}>
+                                    <BreadcrumbItem>
+                                        <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    {index !== breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                                </Fragment>
                             ))}
                         </BreadcrumbList>
                     </Breadcrumb>

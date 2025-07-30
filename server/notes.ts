@@ -40,7 +40,12 @@ export const createNote = async (values: InsertNote) => {
 
 export const getNoteById = async (id: string) => {
     try {
-        const note = await db.select().from(notes).where(eq(notes.id, id));
+        const note = await db.query.notes.findFirst({ 
+            where: eq(notes.id, id), 
+            with: {
+                notebook: true
+            }
+        })
         return { success: true, note }
     }
     catch (error) {
@@ -49,7 +54,7 @@ export const getNoteById = async (id: string) => {
     }
 }
 
-export const updateNote = async (id: string, values: InsertNote) => {
+export const updateNote = async (id: string, values: Partial<InsertNote>) => {
     try {
         await db.update(notes).set(values).where(eq(notes.id, id));
         return { success: true, message: 'Note updated successfully'};

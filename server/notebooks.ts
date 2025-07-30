@@ -52,7 +52,7 @@ export const getNotebookById = async (id: string) => {
             }
         });
 
-        return { success: true, data: notebook }
+        return { success: true, notebook }
     }
     catch (error) {
         console.error((error as Error)?.message)
