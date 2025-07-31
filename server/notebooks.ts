@@ -5,6 +5,9 @@ import { InsertNotebook, notebooks } from '@/db/schema';
 import { auth } from '@/lib/auth';
 import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
+import { Notebook, Note } from '@/db/schema';
+
+export type NotebookWithNotes = Notebook & { notes: Note[] };
 
 export const createNotebook = async (values: InsertNotebook) => {
     try { 
@@ -17,7 +20,10 @@ export const createNotebook = async (values: InsertNotebook) => {
     }
 }
 
-export const getNotebooks = async () => {
+export const getNotebooks = async (): Promise<
+    { success: true, data: NotebookWithNotes[] } |
+    { success: false; message: string }
+> => {
     try {
         const session = await auth.api.getSession({
             headers: await headers()
@@ -47,9 +53,7 @@ export const getNotebookById = async (id: string) => {
     try {
         const notebook = await db.query.notebooks.findFirst({
             where: eq(notebooks?.id, id),
-            with: {
-                notes: true
-            }
+            with: { notes: true }
         });
 
         return { success: true, notebook }

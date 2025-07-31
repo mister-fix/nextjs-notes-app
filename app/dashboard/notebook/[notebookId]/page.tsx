@@ -1,15 +1,8 @@
 import { PageWrapper } from "@/components/page-wrapper";
-import { Button } from "@/components/ui/button";
 import { getNotebookById } from "@/server/notebooks";
-import {
-  Card,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Note } from "@/db/schema";
-import Link from 'next/link';
-import { Icon } from '@/components/ui/icon';
+import { CreateNoteButton } from "@/components/create-note-button";
+import NoteCard from './note/[noteId]/NoteCard'
 
 type Params = Promise<{
   notebookId: string;
@@ -31,24 +24,12 @@ export default async function Page({ params }: { params: Params }) {
                 <div className="flex flex-row items-center justify-between w-full">
                     <h1 className="text-xl">{notebook?.name}</h1>
         
-                    <Button>Add note</Button>
+                    <CreateNoteButton notebookId={notebookId} />
                 </div>
     
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
                     {notebook?.notes && (notebook?.notes ?? []).map((note: Note) => (
-                        <Card key={notebook.id} className="col-span-1">
-                            <CardHeader>
-                                <CardTitle>{note?.title}</CardTitle>
-                            </CardHeader>
-                            <CardFooter>
-                                <div className="flex flex-row items-center justify-start gap-2">
-                                    <Button><Link href={`/dashboard/notebook/${note?.notebookId}/note/${note?.id}`}>View</Link></Button>
-                                    <Button variant="destructive" className="cursor-pointer">
-                                        <Icon name="Trash2" />{" "}Delete
-                                    </Button>
-                                </div>
-                            </CardFooter>
-                        </Card>
+                        <NoteCard key={note.id} note={note} />
                     ))}
         
                     {notebook?.notes && (notebook?.notes?.length === 0 && (

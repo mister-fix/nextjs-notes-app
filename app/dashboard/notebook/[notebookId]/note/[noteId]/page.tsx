@@ -1,7 +1,5 @@
 import React from 'react'
 import { getNoteById } from '@/server/notes'
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import { PageWrapper } from "@/components/page-wrapper"
 import TextEditor from '@/components/text-editor';
 import { JSONContent } from '@tiptap/react';
@@ -26,12 +24,6 @@ const Page = async ({ params }: { params: Params }) => {
       <div className="flex flex-col gap-4">
           <div className="flex flex-row items-center justify-between w-full">
               <h1 className="text-xl">{note?.title}</h1>
-  
-              <Button>
-                <div className="flex items-center gap-2">
-                  <Icon name="Pencil" size={18} /><span>Edit</span>
-                </div>
-              </Button>
           </div>
 
           <div className="flex flex-col">

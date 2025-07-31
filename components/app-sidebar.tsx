@@ -1,87 +1,42 @@
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
-
 import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { getNotebooks } from "@/server/notebooks"
-import { Note, Notebook } from "@/db/schema"
+import { Note } from "@/db/schema"
+import Image from "next/image"
+import SidebarData from "./sidebar-data"
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const notebooks = await getNotebooks();
   const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    ...(notebooks.data ?? []).map((notebook: Notebook & { notes?: Note[] }) => ({
-      title: notebook.name,
-      url: `/dashboard/${notebook.id}`,
-      items: (notebook.notes ?? []).map((note: Note) => ({
-        title: note.title,
-        url: `/dashboard/notebook/${notebook.id}/note/${note.id}`
-      }))
-    }))
-  ],
-}
+    navMain: notebooks.success
+      ? notebooks.data.map((notebook) => ({
+          title: notebook.name,
+          url: `/dashboard/${notebook.id}`,
+          items: (notebook.notes ?? []).map((note: Note) => ({
+            title: note.title,
+            url: `/dashboard/notebook/${notebook.id}/note/${note.id}`
+          }))
+        }))
+      : []
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
+        <div className="flex items-center gap-3 px-2">
+          <Image src="/logo.svg" alt="Logo" height={22} width={22} />
+          <h2 className="text-xl font-semibold">NotesApp</h2>
+        </div>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        {/* We create a collapsible SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <Collapsible
-            key={item.title}
-            title={item.title}
-            defaultOpen
-            className="group/collapsible"
-          >
-            <SidebarGroup>
-              <SidebarGroupLabel
-                asChild
-                className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
-              >
-                <CollapsibleTrigger>
-                  {item.title}{" "}
-                  {item.items.length > 0 && <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />}
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {item.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
-        ))}
+        <SidebarData data={data} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
