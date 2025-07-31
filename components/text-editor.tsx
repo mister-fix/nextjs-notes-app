@@ -1,6 +1,8 @@
 "use client";
 
 import { TextStyleKit } from '@tiptap/extension-text-style'
+import { TextAlign } from '@tiptap/extension-text-align'
+import {Underline as TextUnderline} from '@tiptap/extension-underline'
 import type { Editor } from '@tiptap/react'
 import { EditorContent, useEditor, useEditorState, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -8,8 +10,32 @@ import React from 'react'
 import '@/app/styles.css';
 import { Button } from './ui/button';
 import { updateNote } from '@/server/notes';
+import {
+    Bold,
+    Italic,
+    AlignLeft,
+    AlignRight,
+    AlignCenter,
+    AlignJustify,
+    TextQuote,
+    Superscript,
+    Subscript,
+    Link,
+    Strikethrough,
+    Underline,
+    Code,
+    Undo,
+    Redo,
+    List,
+    ListOrdered,
+    Pilcrow,
+    Minus,
+    CodeXml,
+    CornerDownRight
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-const extensions = [TextStyleKit, StarterKit]
+const extensions = [TextStyleKit, StarterKit, TextAlign.configure({ types: ['heading', 'paragraph'] })]
 
 interface Props {
     content?: JSONContent[];
@@ -49,111 +75,173 @@ function MenuBar({ editor }: { editor: Editor }) {
   })
 
   return (
-    <div className="control-group">
-      <div className="flex flex-wrap gap-4">
+    <div className="border p-2 rounded-tl-xl rounded-tr-xl bg-neutral-900">
+      <div className="flex flex-wrap gap-2">
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editorState.canBold}
-          className={editorState.isBold ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isBold ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Bold
+          <Bold />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editorState.canItalic}
-          className={editorState.isItalic ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isItalic ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Italic
+          <Italic />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editorState.canStrike}
-          className={editorState.isStrike ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isStrike ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Strike
+          <Strikethrough />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editorState.canCode}
-          className={editorState.isCode ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isCode ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Code
+          <Code />
         </Button>
-        <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>Clear marks</Button>
-        <Button onClick={() => editor.chain().focus().clearNodes().run()}>Clear nodes</Button>
+        <Button variant="outline" onClick={() => editor.chain().focus().unsetAllMarks().run()} className="cursor-pointer hover:bg-[#6a00f5] hover:text-white focus:text-white focus:bg-[#6a00f5]/80">Clear marks</Button>
+        <Button variant="outline" onClick={() => editor.chain().focus().clearNodes().run()} className="cursor-pointer hover:bg-[#6a00f5] hover:text-white focus:text-white focus:bg-[#6a00f5]/80">Clear nodes</Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().setParagraph().run()}
-          className={editorState.isParagraph ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isParagraph ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Paragraph
+          <Pilcrow />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editorState.isHeading1 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading1 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H1
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editorState.isHeading2 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading2 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H2
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={editorState.isHeading3 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading3 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H3
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-          className={editorState.isHeading4 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading4 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H4
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-          className={editorState.isHeading5 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading5 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H5
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-          className={editorState.isHeading6 ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isHeading6 ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
           H6
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editorState.isBulletList ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isBulletList ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Bullet list
+          <List />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editorState.isOrderedList ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isOrderedList ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Ordered list
+          <ListOrdered />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editorState.isCodeBlock ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isCodeBlock ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Code block
+          <CodeXml />
         </Button>
         <Button
+          size="icon"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={editorState.isBlockquote ? 'is-active' : ''}
+          className={cn('cursor-pointer', editorState.isBlockquote ? 'bg-[#6a00f5] text-white is-active hover:bg-[#6a00f5]/80' : '')}
         >
-          Blockquote
+          <TextQuote />
         </Button>
-        <Button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Horizontal rule</Button>
-        <Button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</Button>
-        <Button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
-          Undo
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+        >
+          <AlignLeft />
         </Button>
-        <Button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
-          Redo
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+        >
+          <AlignCenter />
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+        >
+          <AlignRight />
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+          className={editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}
+        >
+          <AlignJustify />
+        </Button>
+        <Button size="icon" variant="ghost" className="cursor-pointer" onClick={() => editor.chain().focus().setHorizontalRule().run()}><Minus /></Button>
+        <Button size="icon" variant="ghost" className="cursor-pointer" onClick={() => editor.chain().focus().setHardBreak().run()}><CornerDownRight className="scale-x-[-1]" /></Button>
+        <Button size="icon" variant="ghost" className="cursor-pointer" onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
+          <Undo />
+        </Button>
+        <Button size="icon" variant="ghost" className="cursor-pointer" onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
+          <Redo />
         </Button>
       </div>
     </div>
@@ -181,9 +269,9 @@ export default function TextEditor({ content, noteId }: Props) {
   if(!editor) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full max-w-7xl flex flex-col">
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="border border-muted p-4 h-full rounded-xl" />
+      <EditorContent editor={editor} className="border border-t-0 border-muted p-4 h-full rounded-bl-xl rounded-br-xl min-h-96 focus:border-neutral-400" />
     </div>
   )
 }
