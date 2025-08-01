@@ -18,6 +18,8 @@ interface Props {
     }[]
 }
 
+export const dynamic = 'force-dynamic';
+
 export function PageWrapper({ children, breadcrumbs }: Props) {
     return (
         <div className="flex flex-col">
