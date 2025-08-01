@@ -15,7 +15,7 @@ export function SignOut() {
     }
 
   return (
-    <Button variant="outline" onClick={handleLogout}>
+    <Button variant="outline" onClick={handleLogout} className="cursor-pointer">
       <div className="flex items-center gap-x-2">
         <span>Sign out</span>
         <Icon name="LogOut" size={18} />
