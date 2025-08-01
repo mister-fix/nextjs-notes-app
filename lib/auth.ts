@@ -1,21 +1,19 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@/db/drizzle';
-import { schema, verification } from "@/db/schema";
+import { schema } from "@/db/schema";
 import { nextCookies } from "better-auth/next-js";
 import { Resend } from "resend";
 import VerificationEmail from '@/components/emails/verification-email'
 import PasswordResetEmail from '@/components/emails/reset-email'
 import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from "next/server";
-import { and, eq, gt, like } from "drizzle-orm";
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const auth = betterAuth({
   emailVerification: {
-    sendVerificationEmail: async ( { user, url, token }, request) => {
-      const { data, error } = await resend.emails.send({
+    sendVerificationEmail: async ({ user, url }) => {
+      const { error } = await resend.emails.send({
         from: 'NotesApp <onboarding@stephenwm.me>',
         to: [user.email],
         subject: 'Verify your email address',
@@ -30,8 +28,8 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url, token}, request) => {
-      const { data, error } = await resend.emails.send({
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
         from: 'NotesApp <noreply@stephenwm.me>',
         to: [user.email],
         subject: 'Reset your account password',

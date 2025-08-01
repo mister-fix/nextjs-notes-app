@@ -2,7 +2,6 @@
 
 import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TextAlign } from '@tiptap/extension-text-align'
-import { Underline as TextUnderline } from '@tiptap/extension-underline'
 import type { Editor } from '@tiptap/react'
 import { EditorContent, useEditor, useEditorState, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -17,11 +16,7 @@ import {
     AlignCenter,
     AlignJustify,
     TextQuote,
-    Superscript,
-    Subscript,
-    Link,
     Strikethrough,
-    Underline,
     Code,
     Undo,
     Redo,
