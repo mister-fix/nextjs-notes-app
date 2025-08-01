@@ -98,7 +98,7 @@ function MenuBar({ editor }: { editor: Editor }) {
   }
 
   return (
-    <div className="border p-2 rounded-tl-xl rounded-tr-xl bg-neutral-900">
+    <div className="border p-2 rounded-tl-xl rounded-tr-xl bg-neutral-300 dark:bg-neutral-900">
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-2">
           <Button

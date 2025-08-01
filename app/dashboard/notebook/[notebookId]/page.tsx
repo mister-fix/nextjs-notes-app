@@ -3,6 +3,8 @@ import { getNotebookById } from "@/server/notebooks";
 import { Note } from "@/db/schema";
 import { CreateNoteButton } from "@/components/create-note-button";
 import NoteCard from './note/[noteId]/NoteCard'
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
 
 type Params = Promise<{
   notebookId: string;
@@ -10,6 +12,10 @@ type Params = Promise<{
 
 
 export default async function Page({ params }: { params: Params }) {
+    const session = await getSession();
+
+    if (!session) redirect('/sign-in')
+
     const { notebookId } = await params;
     const { notebook } = await getNotebookById(notebookId);
 

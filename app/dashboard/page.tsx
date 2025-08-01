@@ -3,9 +3,20 @@ import { getNotebooks } from '@/server/notebooks';
 import { CreateNotebookButton } from '@/components/create-notebook-button';
 import NotebookCard from './notebook/[notebookId]/NotebookCard';
 import { NotebookWithNotes } from '@/server/notebooks';
+import { Metadata } from 'next';
+import { getSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "NotesApp dashboard page",
+};
 
 export default async function Page() {
-  const notebooks = await getNotebooks()
+  const notebooks = await getNotebooks();
+  const session = await getSession();
+
+  if(!session) redirect('/sign-in');
 
   return (
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard"}]}>

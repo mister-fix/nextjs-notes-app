@@ -3,6 +3,8 @@ import { getNoteById } from '@/server/notes'
 import { PageWrapper } from "@/components/page-wrapper"
 import TextEditor from '@/components/text-editor';
 import { JSONContent } from '@tiptap/react';
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
 
 type Params = Promise<{
   noteId: string;
@@ -10,14 +12,18 @@ type Params = Promise<{
 
 
 const Page = async ({ params }: { params: Params }) => {
-    const { noteId } = await params;
-    const { note } = await getNoteById(noteId);
+  const session = await getSession();
 
-    const breadcrumbs = [
-      { label: 'Dashboard', href: '/dashboard' },
-      { label: note?.notebook?.name ?? 'Notebook', href: `/dashboard/notebook/${note?.notebook?.id}` },
-      { label: `${note?.title}`, href: `/dashboard/notebook/${note?.notebook?.id}/note/${note?.id}` },
-    ]
+  if (!session) redirect('/sign-in')
+
+  const { noteId } = await params;
+  const { note } = await getNoteById(noteId);
+
+  const breadcrumbs = [
+    { label: 'Dashboard', href: '/dashboard' },
+    { label: note?.notebook?.name ?? 'Notebook', href: `/dashboard/notebook/${note?.notebook?.id}` },
+    { label: `${note?.title}`, href: `/dashboard/notebook/${note?.notebook?.id}/note/${note?.id}` },
+  ]
 
   return (
     <PageWrapper breadcrumbs={breadcrumbs}>

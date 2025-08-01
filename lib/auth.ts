@@ -1,11 +1,14 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@/db/drizzle';
-import { schema } from "@/db/schema";
+import { schema, verification } from "@/db/schema";
 import { nextCookies } from "better-auth/next-js";
 import { Resend } from "resend";
 import VerificationEmail from '@/components/emails/verification-email'
 import PasswordResetEmail from '@/components/emails/reset-email'
+import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from "next/server";
+import { and, eq, gt, like } from "drizzle-orm";
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -31,7 +34,7 @@ export const auth = betterAuth({
       const { data, error } = await resend.emails.send({
         from: 'NotesApp <noreply@stephenwm.me>',
         to: [user.email],
-        subject: 'Verify your email address',
+        subject: 'Reset your account password',
         react: PasswordResetEmail({ name: user.name, passwordResetUrl: url})
       })
     }
@@ -48,3 +51,18 @@ export const auth = betterAuth({
   }),
   plugins: [nextCookies()]
 });
+
+export const getSession = async () => auth.api.getSession({
+  headers: await headers()
+})
+
+// export const validateResetToken = async (token: string) => {
+//   const validToken = await db.query.verification.findFirst({
+//     where: and(
+//       like(verification.identifier, `reset-password:${token}`),
+//       gt(verification.expiresAt, new Date())
+//     ),
+//   });
+  
+//   if (!validToken) return false; 
+// }

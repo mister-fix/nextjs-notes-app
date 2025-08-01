@@ -35,7 +35,7 @@ export default function PasswordResetEmail({
                     href={passwordResetUrl}
                     className="inline-block bg-blue-600 text-white font-semibold text-sm px-6 py-3 rounded-md hover:bg-blue-700"
                     >
-                    Verify Email
+                    Reset Password
                     </a>
                 </Button>
               </div>

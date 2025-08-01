@@ -5,14 +5,14 @@ import { Icon } from '@/components/ui/icon';
 
 const features = [
     {
-    icon: "PencilLine",
-    name: "Quick Crumbs",
+    icon: "Lock",
+    name: "Secure Workspace",
     description:
-      "Jot down short, fleeting thoughts instantly — perfect for tasks, reminders, or sudden ideas.",
+      "Your notes stay secure and accessible anywhere for you to continue editing.",
   },
   {
     icon: "BookOpenText",
-    name: "Longform Loaves",
+    name: "Longform Notes",
     description:
       "Craft structured, in-depth notes for deep work, writing sessions, and documentation.",
   },
@@ -20,7 +20,7 @@ const features = [
     icon: "Folder",
     name: "Simple Organization",
     description:
-      "Group notes into folders to keep your ideas tidy and logically arranged.",
+      "Group notes into notebooks to keep your ideas tidy and logically arranged.",
   },
   {
     icon: "Tags",
@@ -32,19 +32,19 @@ const features = [
     icon: "Search",
     name: "Fast Search",
     description:
-      "Quickly find what you need across all your notes with powerful full-text search.",
+      "Quickly find what notes you need across your notebooks with a Nuqs search tool.",
   },
   {
     icon: "Clock",
-    name: "Autosave & History",
+    name: "Autosave",
     description:
-      "Never lose a thought — everything saves as you type, with access to recent edits.",
+      "Never lose a thought, we save all of your content as you type in real time.",
   },
 ]
 
 export default function Features() {
     return (
-        <section className="bg-zinc-50 py-16 md:py-32 dark:bg-transparent">
+        <section className="bg-zinc-50 py-16 md:py-32 dark:bg-transparent" id="features">
             <div className="@container mx-auto max-w-5xl px-6">
                 <div className="text-center">
                     <h2 className="text-balance text-4xl font-semibold lg:text-5xl">Built to cover your needs</h2>
