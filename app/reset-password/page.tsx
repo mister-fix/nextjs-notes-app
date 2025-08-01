@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "@/components/forms/reset-password-form";
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -16,7 +17,9 @@ export default async function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <ResetPasswordForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ResetPasswordForm />
+        </Suspense>
       </div>
     </div>
   );
