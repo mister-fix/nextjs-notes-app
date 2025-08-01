@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import React from "react"
+import React, { Suspense } from "react"
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,7 +15,9 @@ interface Props {
 export default function DashboardLayout({ children }: Props) {
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <Suspense fallback={<div>Loading...</div>}>
+                <AppSidebar />
+            </Suspense>
             <main className="w-full">
                 {children}
             </main>

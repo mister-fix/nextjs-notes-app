@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "@/components/forms/reset-password-form";
-import { Suspense } from 'react'
+import { Suspense } from 'react';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Reset Password",
