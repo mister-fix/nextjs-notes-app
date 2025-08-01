@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { TextEffect } from '@/components/ui/text-effect'
@@ -8,24 +8,24 @@ import { AnimatedGroup } from '@/components/ui/animated-group'
 import { HeroHeader } from './header'
 
 const transitionVariants = {
-    item: {
-        hidden: {
-            opacity: 0,
-            filter: 'blur(12px)',
-            y: 12,
-        },
-        visible: {
-            opacity: 1,
-            filter: 'blur(0px)',
-            y: 0,
-            transition: {
-                type: 'spring',
-                bounce: 0.3,
-                duration: 1.5,
-            },
-        },
+  item: {
+    hidden: { 
+      opacity: 0,
+      filter: 'blur(4px)',
+      y: 20
     },
-}
+    visible: {
+      opacity: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      transition: {
+        type: 'spring' as const, // Explicitly type as 'spring'
+        bounce: 0.4,
+        duration: 0.8
+      }
+    }
+  }
+};
 
 export default function HeroSection() {
     return (
@@ -67,6 +67,7 @@ export default function HeroSection() {
                                 },
                             }}
                             className="absolute inset-0 -z-20">
+                                <></>
                         </AnimatedGroup>
                         <div className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"></div>
                         <div className="mx-auto max-w-7xl px-6">
